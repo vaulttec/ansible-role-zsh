@@ -8,7 +8,7 @@ Ansible role to install [zsh](https://www.zsh.com/3) and [Oh My ZSH](http://ohmy
 Requirements
 ------------
 
-None
+None.
 
 
 Role Variables
@@ -31,7 +31,7 @@ zsh_ohmy_auto_update: true
 Dependencies
 ------------
 
-None
+None.
 
 
 Example Playbook
