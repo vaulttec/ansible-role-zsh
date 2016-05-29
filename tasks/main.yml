@@ -21,7 +21,7 @@
 - name: Clone oh-my-zsh repository
   become: yes
   git:
-    repo: git@github.com:robbyrussell/oh-my-zsh.git
+    repo: https://github.com/robbyrussell/oh-my-zsh.git
     dest: "/home/{{ item }}/.oh-my-zsh"
     accept_hostkey: yes
     update: no
