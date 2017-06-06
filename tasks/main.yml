@@ -8,6 +8,7 @@
 - name: Get zsh path
   command: which zsh 
   register: zsh_path
+  changed_when: no
   tags: configuration
 
 - name: Switch to zsh
