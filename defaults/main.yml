@@ -1,9 +1,18 @@
 ---
 zsh_users:
-  - "{{ ansible_ssh_user }}"
+  - "{{ ansible_ssh_user|default(lookup('env', 'USER'))  }}"
 zsh_ohmy_theme: pygmalion
+
+zsh_ohmy_custom_plugins:
+  - name: zsh-syntax-highlighting
+    repo: "git://github.com/zsh-users/zsh-syntax-highlighting.git"
+  - name: zsh-autosuggestions
+    repo: "git://github.com/zsh-users/zsh-autosuggestions.git"
+
 zsh_ohmy_plugins:
   - git
   - git-flow
   - docker
+  - zsh-syntax-highlighting
+  - zsh-autosuggestions
 zsh_ohmy_disable_auto_update: true
