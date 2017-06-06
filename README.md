@@ -20,10 +20,18 @@ Available variables are listed below, along with default values:
 zsh_users:
   - "{{ ansible_ssh_user }}"
 zsh_ohmy_theme: pygmalion
+zsh_ohmy_custom_plugins:
+  - name: zsh-syntax-highlighting
+    repo: "git://github.com/zsh-users/zsh-syntax-highlighting.git"
+  - name: zsh-autosuggestions
+    repo: "git://github.com/zsh-users/zsh-autosuggestions.git"
+
 zsh_ohmy_plugins:
   - git
   - git-flow
   - docker
+  - zsh-syntax-highlighting
+  - zsh-autosuggestions
 zsh_ohmy_auto_update: true
 ```
 
