@@ -1,5 +1,5 @@
 ---
-zsh_users:
+zsh_user:
   - "{{ ansible_ssh_user|default(lookup('env', 'USER'))  }}"
 zsh_ohmy_theme: pygmalion
 

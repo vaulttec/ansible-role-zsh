@@ -17,7 +17,7 @@
   user:
     name: "{{ item }}"
     shell: "{{ zsh_path.stdout }}"
-  with_items: "{{ zsh_users }}"
+  with_items: "{{ zsh_user }}"
   become: yes 
   tags: configuration
 
@@ -28,7 +28,7 @@
     dest: "/home/{{ item }}/.oh-my-zsh"
     accept_hostkey: yes
     update: no
-  with_items: "{{ zsh_users }}"
+  with_items: "{{ zsh_user }}"
   tags: configuration
 
 
@@ -40,7 +40,7 @@
     accept_hostkey: yes
     update: no
   with_nested:
-    - "{{ zsh_users }}"
+    - "{{ zsh_user }}"
     - "{{ zsh_ohmy_custom_plugins }}"
   tags: configuration
 
@@ -53,7 +53,7 @@
     group: "{{ item }}"
     state: directory
     recurse: yes
-  with_items: "{{ zsh_users }}"
+  with_items: "{{ zsh_user }}"
   tags: configuration
 
 - name: Create zsh config file
@@ -64,5 +64,5 @@
     owner: "{{ item }}"
     group: "{{ item }}"
     mode: 0640
-  with_items: "{{ zsh_users }}"
+  with_items: "{{ zsh_user }}"
   tags: configuration
