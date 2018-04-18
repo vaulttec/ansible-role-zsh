@@ -16,3 +16,5 @@ zsh_ohmy_plugins:
   - zsh-syntax-highlighting
   - zsh-autosuggestions
 zsh_ohmy_disable_auto_update: true
+
+zsh_append_zshrc: ""

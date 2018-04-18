@@ -66,3 +66,15 @@
     mode: 0640
   with_items: "{{ zsh_users }}"
   tags: configuration
+
+- name: Copying additional .zshrc as template to /home/user/.zshrc.local
+  become: yes
+  template:
+    src: "{{zsh_append_zshrc}}"
+    dest: "/home/{{ item }}/.zshrc.local"
+    owner: "{{ item }}"
+    group: "{{ item }}"
+    mode: "0640"
+  with_items: "{{ zsh_users }}"
+  tags: configuration
+  when: zsh_append_zshrc|default("") != ""
