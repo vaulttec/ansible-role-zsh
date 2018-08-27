@@ -47,7 +47,7 @@
   become: yes
   git:
     repo: "{{ item[1].repo }}"
-    dest: "/home/{{ item[0] }}/.oh-my-zsh/custom/themes/{{ item[1].name }}"
+    dest: "/home/{{ item[0] }}/.oh-my-zsh/custom/themes/{{ item[1].name }}.zsh-theme"
     accept_hostkey: yes
     update: no
   with_nested:
