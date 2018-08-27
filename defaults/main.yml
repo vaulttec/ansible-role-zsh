@@ -9,6 +9,10 @@ zsh_ohmy_custom_plugins:
   - name: zsh-autosuggestions
     repo: "git://github.com/zsh-users/zsh-autosuggestions.git"
 
+zsh_ohmy_custom_themes:
+  - name: spaceship-prompt
+    repo: "https://github.com/denysdovhan/spaceship-prompt.git"
+
 zsh_ohmy_plugins:
   - git
   - git-flow
