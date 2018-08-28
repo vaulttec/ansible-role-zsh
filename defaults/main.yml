@@ -10,8 +10,8 @@ zsh_ohmy_custom_plugins:
     repo: "git://github.com/zsh-users/zsh-autosuggestions.git"
 
 zsh_ohmy_custom_themes:
-  - name: spaceship-prompt
-    repo: "https://github.com/denysdovhan/spaceship-prompt.git"
+  - name: powerlevel9k
+    repo: "https://github.com/bhilburn/powerlevel9k.git"
 
 zsh_ohmy_plugins:
   - git
