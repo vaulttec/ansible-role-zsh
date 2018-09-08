@@ -31,7 +31,6 @@
   with_items: "{{ zsh_users }}"
   tags: configuration
 
-
 - name: Clone oh-my-zsh custom plugin
   become: yes
   git:
@@ -44,6 +43,17 @@
     - "{{ zsh_ohmy_custom_plugins }}"
   tags: configuration
 
+- name: Clone oh-my-zsh custom themes
+  become: yes
+  git:
+    repo: "{{ item[1].repo }}"
+    dest: "/home/{{ item[0] }}/.oh-my-zsh/custom/themes/{{ item[1].name }}"
+    accept_hostkey: yes
+    update: no
+  with_nested:
+    - "{{ zsh_users }}"
+    - "{{ zsh_ohmy_custom_themes }}"
+  tags: configuration
 
 - name: Set permissions for oh my zsh dir
   become: yes
