@@ -6,6 +6,15 @@
     state: present
   with_items: "{{ zsh_dependencies }}"
   tags: packages
+  when: ansible_os_family != "Darwin"
+  
+- name: Install required packages
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ zsh_dependencies }}"
+  tags: packages
+  when: ansible_os_family == "Darwin"
 
 - name: Get zsh path
   command: which zsh 
@@ -14,15 +23,14 @@
   tags: configuration
 
 - name: Switch to zsh
+  become: yes 
   user:
     name: "{{ item }}"
     shell: "{{ zsh_path.stdout }}"
   with_items: "{{ zsh_users }}"
-  become: yes 
   tags: configuration
 
 - name: Clone oh-my-zsh repository
-  become: yes
   git:
     repo: https://github.com/robbyrussell/oh-my-zsh.git
     dest: "/home/{{ item }}/.oh-my-zsh"
@@ -32,7 +40,6 @@
   tags: configuration
 
 - name: Clone oh-my-zsh custom plugin
-  become: yes
   git:
     repo: "{{ item[1].repo }}"
     dest: "/home/{{ item[0] }}/.oh-my-zsh/custom/plugins/{{ item[1].name }}"
@@ -44,7 +51,6 @@
   tags: configuration
 
 - name: Clone oh-my-zsh custom themes
-  become: yes
   git:
     repo: "{{ item[1].repo }}"
     dest: "/home/{{ item[0] }}/.oh-my-zsh/custom/themes/{{ item[1].name }}"
@@ -56,7 +62,6 @@
   tags: configuration
 
 - name: Set permissions for oh my zsh dir
-  become: yes
   file:
     path: "/home/{{ item }}/.oh-my-zsh"
     owner: "{{ item }}"
@@ -67,7 +72,6 @@
   tags: configuration
 
 - name: Create zsh config file
-  become: yes
   template:
     src: zsh.config.j2
     dest: "/home/{{ item }}/.zshrc"
@@ -78,7 +82,6 @@
   tags: configuration
 
 - name: Copying additional .zshrc as template to /home/user/.zshrc.local
-  become: yes
   template:
     src: "{{zsh_append_zshrc}}"
     dest: "/home/{{ item }}/.zshrc.local"
