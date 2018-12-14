@@ -35,16 +35,16 @@
     repo: https://github.com/robbyrussell/oh-my-zsh.git
     dest: "/home/{{ item }}/.oh-my-zsh"
     accept_hostkey: yes
-    update: no
+    update: yes
   with_items: "{{ zsh_users }}"
   tags: configuration
 
-- name: Clone oh-my-zsh custom plugin
+- name: Clone oh-my-zsh custom plugins
   git:
     repo: "{{ item[1].repo }}"
     dest: "/home/{{ item[0] }}/.oh-my-zsh/custom/plugins/{{ item[1].name }}"
     accept_hostkey: yes
-    update: no
+    update: yes
   with_nested:
     - "{{ zsh_users }}"
     - "{{ zsh_ohmy_custom_plugins }}"
@@ -55,7 +55,7 @@
     repo: "{{ item[1].repo }}"
     dest: "/home/{{ item[0] }}/.oh-my-zsh/custom/themes/{{ item[1].name }}"
     accept_hostkey: yes
-    update: no
+    update: yes
   with_nested:
     - "{{ zsh_users }}"
     - "{{ zsh_ohmy_custom_themes }}"
