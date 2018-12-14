@@ -25,69 +25,49 @@
 - name: Switch to zsh
   become: yes 
   user:
-    name: "{{ item }}"
+    name: "{{ ansible_env.USER }}"
     shell: "{{ zsh_path.stdout }}"
-  with_items: "{{ zsh_users }}"
   tags: configuration
 
 - name: Clone oh-my-zsh repository
   git:
     repo: https://github.com/robbyrussell/oh-my-zsh.git
-    dest: "/home/{{ item }}/.oh-my-zsh"
+    dest: "{{ ansible_env.HOME }}/.oh-my-zsh"
     accept_hostkey: yes
     update: yes
-  with_items: "{{ zsh_users }}"
   tags: configuration
 
 - name: Clone oh-my-zsh custom plugins
   git:
-    repo: "{{ item[1].repo }}"
-    dest: "/home/{{ item[0] }}/.oh-my-zsh/custom/plugins/{{ item[1].name }}"
+    repo: "{{ item.repo }}"
+    dest: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/{{ item.name }}"
     accept_hostkey: yes
     update: yes
-  with_nested:
-    - "{{ zsh_users }}"
-    - "{{ zsh_ohmy_custom_plugins }}"
+  with_items: "{{ zsh_ohmy_custom_plugins }}"
   tags: configuration
 
 - name: Clone oh-my-zsh custom themes
   git:
-    repo: "{{ item[1].repo }}"
-    dest: "/home/{{ item[0] }}/.oh-my-zsh/custom/themes/{{ item[1].name }}"
+    repo: "{{ item.repo }}"
+    dest: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/themes/{{ item.name }}"
     accept_hostkey: yes
     update: yes
-  with_nested:
-    - "{{ zsh_users }}"
-    - "{{ zsh_ohmy_custom_themes }}"
-  tags: configuration
-
-- name: Set permissions for oh my zsh dir
-  file:
-    path: "/home/{{ item }}/.oh-my-zsh"
-    owner: "{{ item }}"
-    group: "{{ item }}"
-    state: directory
-    recurse: yes
-  with_items: "{{ zsh_users }}"
+  with_items: "{{ zsh_ohmy_custom_themes }}"
   tags: configuration
 
 - name: Create zsh config file
   template:
     src: zsh.config.j2
-    dest: "/home/{{ item }}/.zshrc"
-    owner: "{{ item }}"
-    group: "{{ item }}"
+    dest: "{{ ansible_env.HOME }}/.zshrc"
+    owner: "{{ ansible_env.USER }}"
     mode: 0640
-  with_items: "{{ zsh_users }}"
   tags: configuration
 
 - name: Copying additional .zshrc as template to /home/user/.zshrc.local
   template:
-    src: "{{zsh_append_zshrc}}"
-    dest: "/home/{{ item }}/.zshrc.local"
-    owner: "{{ item }}"
-    group: "{{ item }}"
+    src: "{{ zsh_append_zshrc }}"
+    dest: "{{ ansible_env.HOME }}/.zshrc.local"
+    owner: "{{ ansible_env.USER }}"
     mode: "0640"
-  with_items: "{{ zsh_users }}"
   tags: configuration
   when: zsh_append_zshrc|default("") != ""
