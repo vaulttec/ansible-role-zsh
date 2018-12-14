@@ -7,7 +7,7 @@
   with_items: "{{ zsh_dependencies }}"
   tags: packages
   when: ansible_os_family != "Darwin"
-  
+
 - name: Install required packages
   package:
     name: "{{ item }}"
@@ -17,13 +17,13 @@
   when: ansible_os_family == "Darwin"
 
 - name: Get zsh path
-  command: which zsh 
+  command: which zsh
   register: zsh_path
   changed_when: no
   tags: configuration
 
 - name: Switch to zsh
-  become: yes 
+  become: yes
   user:
     name: "{{ ansible_env.USER }}"
     shell: "{{ zsh_path.stdout }}"
@@ -63,11 +63,11 @@
     mode: 0640
   tags: configuration
 
-- name: Copying additional .zshrc as template to /home/user/.zshrc.local
-  template:
+- name: Linking .zshrc.local
+  file:
     src: "{{ zsh_append_zshrc }}"
     dest: "{{ ansible_env.HOME }}/.zshrc.local"
-    owner: "{{ ansible_env.USER }}"
-    mode: "0640"
+    state: link
+    force: yes
   tags: configuration
   when: zsh_append_zshrc|default("") != ""
