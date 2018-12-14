@@ -68,6 +68,5 @@
     src: "{{ zsh_append_zshrc }}"
     dest: "{{ ansible_env.HOME }}/.zshrc.local"
     state: link
-    force: yes
   tags: configuration
   when: zsh_append_zshrc|default("") != ""
