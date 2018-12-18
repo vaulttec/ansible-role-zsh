@@ -17,7 +17,7 @@ Role Variables
 Available variables are listed below, along with default values:
 
 ```yaml
-zsh_user:
+zsh_users:
   - "{{ ansible_ssh_user }}"
 zsh_ohmy_theme: pygmalion
 zsh_ohmy_custom_plugins:

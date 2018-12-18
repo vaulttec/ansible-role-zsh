@@ -15,8 +15,9 @@
 
 - name: Switch to zsh
   user:
-    name: "{{ ansible_env.USER }}"
+    name: "{{ item }}"
     shell: "{{ zsh_path.stdout }}"
+  with_items: "{{ zsh_users }}"
   become: yes 
   tags: configuration
 
@@ -24,19 +25,22 @@
   become: yes
   git:
     repo: https://github.com/robbyrussell/oh-my-zsh.git
-    dest: "{{ ansible_env.HOME }}/.oh-my-zsh"
+    dest: "/home/{{ item }}/.oh-my-zsh"
     accept_hostkey: yes
     update: no
+  with_items: "{{ zsh_users }}"
   tags: configuration
 
 - name: Clone oh-my-zsh custom plugin
   become: yes
   git:
-    repo: "{{ item.repo }}"
-    dest: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/{{ item.name }}"
+    repo: "{{ item[1].repo }}"
+    dest: "/home/{{ item[0] }}/.oh-my-zsh/custom/plugins/{{ item[1].name }}"
     accept_hostkey: yes
     update: no
-  with_items: "{{ zsh_ohmy_custom_plugins }}"
+  with_nested:
+    - "{{ zsh_users }}"
+    - "{{ zsh_ohmy_custom_plugins }}"
   tags: configuration
 
 - name: Clone oh-my-zsh custom themes
@@ -54,21 +58,23 @@
 - name: Set permissions for oh my zsh dir
   become: yes
   file:
-    path: "{{ ansible_env.HOME }}/.oh-my-zsh"
-    owner: "{{ ansible_env.USER }}"
-    group: "{{ ansible_env.USER }}"
+    path: "/home/{{ item }}/.oh-my-zsh"
+    owner: "{{ item }}"
+    group: "{{ item }}"
     state: directory
     recurse: yes
+  with_items: "{{ zsh_users }}"
   tags: configuration
 
 - name: Create zsh config file
   become: yes
   template:
     src: zsh.config.j2
-    dest: "{{ ansible_env.HOME }}/.zshrc"
-    owner: "{{ ansible_env.USER }}"
-    group: "{{ ansible_env.USER }}"
+    dest: "/home/{{ item }}/.zshrc"
+    owner: "{{ item }}"
+    group: "{{ item }}"
     mode: 0640
+  with_items: "{{ zsh_users }}"
   tags: configuration
 
 - name: Copying additional .zshrc as template to /home/user/.zshrc.local
