@@ -1,3 +1,7 @@
+{% if zsh_debug_startup_time %}
+  zmodload zsh/zprof
+{% endif %}
+
 export ZSH=$HOME/.oh-my-zsh
 
 ZSH_THEME="{{ zsh_ohmy_theme }}"
@@ -15,3 +19,7 @@ source $ZSH/oh-my-zsh.sh
 if [ -f $HOME/.zshrc.local ]; then
    source $HOME/.zshrc.local
 fi
+
+{% if zsh_debug_startup_time %}
+  zprof
+{% endif %}

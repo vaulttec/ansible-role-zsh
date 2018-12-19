@@ -1,5 +1,5 @@
 ---
-zsh_users:
+zsh_user:
   - "{{ ansible_ssh_user|default(lookup('env', 'USER'))  }}"
 zsh_ohmy_theme: pygmalion
 
@@ -22,3 +22,5 @@ zsh_ohmy_plugins:
 zsh_ohmy_disable_auto_update: true
 
 zsh_append_zshrc: ""
+
+zsh_debug_startup_time: false

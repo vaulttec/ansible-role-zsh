@@ -17,9 +17,13 @@ Role Variables
 Available variables are listed below, along with default values:
 
 ```yaml
-zsh_users:
+zsh_user:
   - "{{ ansible_ssh_user }}"
+
+zsh_debug_startup_time: false
+
 zsh_ohmy_theme: pygmalion
+
 zsh_ohmy_custom_plugins:
   - name: zsh-syntax-highlighting
     repo: "git://github.com/zsh-users/zsh-syntax-highlighting.git"
@@ -32,7 +36,8 @@ zsh_ohmy_plugins:
   - docker
   - zsh-syntax-highlighting
   - zsh-autosuggestions
-zsh_ohmy_auto_update: true
+
+zsh_ohmy_disable_auto_update: true
 ```
 
 
